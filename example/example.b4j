@@ -26,6 +26,7 @@ Sub Process_Globals
 	Private xui As XUI 
 	Private Button1 As B4XView
 	Private pressedKeys As Map
+	Private Hook As NativeHook
 End Sub
 
 Sub AppStart (Form1 As Form, Args() As String)
@@ -33,7 +34,7 @@ Sub AppStart (Form1 As Form, Args() As String)
 	MainForm.RootPane.LoadLayout("Layout1")
 	MainForm.Show
 	pressedKeys.Initialize
-	Dim Hook As NativeHook
+	
 	Hook.Initialize(Me,"Hook")
 End Sub
 
@@ -46,6 +47,7 @@ Private Sub Hook_NativeKeyReleased(code As String)
 	Log(code)
 	If pressedKeys.ContainsKey("Ctrl") And pressedKeys.ContainsKey("Alt") And pressedKeys.ContainsKey("C") Then
 		Log("combination key detected")
+		Hook.unregister
 	End If
 	pressedKeys.Remove(code)
 End Sub

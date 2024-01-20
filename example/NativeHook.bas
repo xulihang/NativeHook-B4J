@@ -22,6 +22,10 @@ Public Sub Initialize(Callback As Object, EventName As String)
 	globalScreen.RunMethod("addNativeKeyListener",Array(example))
 End Sub
 
+Public Sub unregister
+	globalScreen.RunMethod("unregisterNativeHook",Null)
+End Sub
+
 Private Sub getKeyText(e As JavaObject) As String
 	Return e.RunMethod("getKeyText",Array(e.RunMethod("getKeyCode",Null)))
 End Sub

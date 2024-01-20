@@ -1,0 +1,55 @@
+﻿AppType=JavaFX
+Build1=Default,b4j.example
+File1=Layout1.bjl
+FileGroup1=Default Group
+Group=Default Group
+Library1=jcore
+Library2=jfx
+Library3=jxui
+Library4=javaobject
+Module1=NativeHook
+NumberOfFiles=1
+NumberOfLibraries=4
+NumberOfModules=1
+Version=8.9
+@EndOfDesignText@
+#Region Project Attributes 
+	#MainFormWidth: 600
+	#MainFormHeight: 600 
+#End Region
+
+#AdditionalJar: jnativehook-2.2.2
+
+Sub Process_Globals
+	Private fx As JFX
+	Private MainForm As Form
+	Private xui As XUI 
+	Private Button1 As B4XView
+	Private pressedKeys As Map
+End Sub
+
+Sub AppStart (Form1 As Form, Args() As String)
+	MainForm = Form1
+	MainForm.RootPane.LoadLayout("Layout1")
+	MainForm.Show
+	pressedKeys.Initialize
+	Dim Hook As NativeHook
+	Hook.Initialize(Me,"Hook")
+End Sub
+
+Private Sub Hook_NativeKeyPressed(code As String)
+	Log(code)
+	pressedKeys.Put(code,"")
+End Sub
+
+Private Sub Hook_NativeKeyReleased(code As String)
+	Log(code)
+	If pressedKeys.ContainsKey("Ctrl") And pressedKeys.ContainsKey("Alt") And pressedKeys.ContainsKey("C") Then
+		Log("combination key detected")
+	End If
+	pressedKeys.Remove(code)
+End Sub
+
+Sub Button1_Click
+	xui.MsgboxAsync("Hello World!", "B4X")
+End Sub
